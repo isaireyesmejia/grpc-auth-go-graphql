@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  servicio-auth:
+    build: .
+    container_name: mi_servidor_grpc
+    ports:
+      - "50051:50051"
