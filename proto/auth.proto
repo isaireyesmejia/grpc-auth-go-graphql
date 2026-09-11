@@ -1,10 +1,12 @@
 syntax = "proto3";
 
-// Ruta completa del módulo + el alias al final
 option go_package = "grpc-auth/proto;authproto";
 
 service AuthService {
   rpc ValidarToken (PeticionToken) returns (RespuestaValidacion);
+  
+  // NUEVO: El servidor enviará un flujo constante (stream) de alertas
+  rpc TransmitirAlertas (PeticionMonitoreo) returns (stream AlertaSeguridad);
 }
 
 message PeticionToken {
@@ -15,4 +17,15 @@ message RespuestaValidacion {
   bool es_valido = 1;
   string usuario_id = 2;
   string rol = 3;
+}
+
+// NUEVO: Mensajes para el sistema de Streaming
+message PeticionMonitoreo {
+  string cliente_id = 1;
+}
+
+message AlertaSeguridad {
+  string timestamp = 1;
+  string nivel = 2;
+  string mensaje = 3;
 }
